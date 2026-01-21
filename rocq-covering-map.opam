@@ -1,0 +1,19 @@
+opam-version: "2.0"
+name: "rocq-covering-map"
+version: "0.1"
+synopsis: "Formalization of a covering map from two tori to a Klein bottle in Rocq"
+description: """
+Coq development that formalizes a 2-to-1 covering map from two tori to a Klein bottle,
+with CW discretizations at 0-, 1-, and 2-levels. Uses Rocq and MathComp Analysis.
+"""
+depends: [
+  "rocq" {>= "9.0"}
+  "mathcomp" {>= "2.4.0"}
+  "mathcomp-analysis"
+  "coq-graph-theory"
+]
+depends-dev: [
+]
+build: [
+  ["sh" "-c" "coq_makefile -f _CoqProject -o Makefile.coq && $(MAKE) -f Makefile.coq"]
+]

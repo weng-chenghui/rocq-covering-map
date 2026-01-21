@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup OCaml & opam
+        uses: ocaml/setup-ocaml@v2
+        with:
+          ocaml-version: '4.14'   # adjust as needed for Rocq/Coq requirements
+          opam-version: '2.1'
+
+      - name: Install dependencies (opam)
+        run: |
+          opam update
+          # Install dependencies declared in the opam file
+          opam install . --deps-only -y
+
+      - name: Build with coq_makefile
+        run: |
+          coq_makefile -f _CoqProject -o Makefile.coq
+          make -f Makefile.coq
